@@ -1,0 +1,389 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Shopping Cart | UrbanWear
+{% endblock %}
+
+
+{% block content %}
+
+
+<section class="cart-section">
+
+
+    <div class="cart-heading">
+
+        <p class="eyebrow">
+            URBANWEAR
+        </p>
+
+        <h1>
+            Shopping Cart
+        </h1>
+
+    </div>
+
+
+    {% if items %}
+
+
+    <div class="cart-layout">
+
+
+        <!-- =================================================
+             CART ITEMS
+        ================================================= -->
+
+        <div class="cart-items">
+
+
+            {% for item in items %}
+
+
+            <article class="cart-item">
+
+
+                <!-- IMAGE -->
+
+                <div class="cart-item-image">
+
+                    {% if item.product.image %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=item.product.image
+                        ) }}"
+                        alt="{{ item.product.name }}"
+                    >
+
+                    {% else %}
+
+                    <div class="product-image-placeholder">
+                        URBANWEAR
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- INFORMATION -->
+
+                <div class="cart-item-info">
+
+
+                    <div>
+
+                        <p class="product-category">
+
+                            {{ item.product.category|capitalize }}
+
+                        </p>
+
+
+                        <h2>
+
+                            {{ item.product.name }}
+
+                        </h2>
+
+
+                        {% if item.product.color %}
+
+                        <p class="cart-item-meta">
+
+                            Color:
+                            {{ item.product.color }}
+
+                        </p>
+
+                        {% endif %}
+
+
+                        {% if item.size %}
+
+                        <p class="cart-item-meta">
+
+                            Size:
+                            {{ item.size }}
+
+                        </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="cart-item-bottom">
+
+
+                        <div class="cart-quantity">
+
+
+                            <form
+                                action="{{ url_for(
+                                    'cart.update_cart'
+                                ) }}"
+                                method="POST"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="product_id"
+                                    value="{{ item.product.id }}"
+                                >
+
+
+                                <button
+                                    type="submit"
+                                    name="quantity"
+                                    value="{{ item.quantity - 1 }}"
+                                >
+                                    −
+                                </button>
+
+
+                                <span>
+                                    {{ item.quantity }}
+                                </span>
+
+
+                                <button
+                                    type="submit"
+                                    name="quantity"
+                                    value="{{ item.quantity + 1 }}"
+                                    {% if item.quantity >= item.product.stock %}
+                                    disabled
+                                    {% endif %}
+                                >
+                                    +
+                                </button>
+
+                            </form>
+
+
+                        </div>
+
+
+                        <strong class="cart-item-price">
+
+                            ${{ "%.2f"|format(
+                                item.total
+                            ) }}
+
+                        </strong>
+
+
+                        <form
+                            action="{{ url_for(
+                                'cart.remove_from_cart'
+                            ) }}"
+                            method="POST"
+                        >
+
+                            <input
+                                type="hidden"
+                                name="product_id"
+                                value="{{ item.product.id }}"
+                            >
+
+                            <button
+                                type="submit"
+                                class="remove-cart-item"
+                            >
+                                REMOVE
+                            </button>
+
+                        </form>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </article>
+
+
+            {% endfor %}
+
+
+            <!-- CONTINUE SHOPPING -->
+
+            <a
+                href="/"
+                class="continue-shopping"
+            >
+                ← CONTINUE SHOPPING
+            </a>
+
+
+        </div>
+
+
+        <!-- =================================================
+             ORDER SUMMARY
+        ================================================= -->
+
+        <aside class="cart-summary">
+
+
+            <p class="eyebrow">
+                ORDER SUMMARY
+            </p>
+
+
+            <h2>
+                Your Order
+            </h2>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <strong>
+
+                    ${{ "%.2f"|format(
+                        subtotal
+                    ) }}
+
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Shipping
+                </span>
+
+                <strong>
+
+                    {% if shipping == 0 %}
+
+                    FREE
+
+                    {% else %}
+
+                    ${{ "%.2f"|format(
+                        shipping
+                    ) }}
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+            {% if shipping > 0 %}
+
+            <p class="shipping-note">
+
+                Add ${{ "%.2f"|format(
+                    75 - subtotal
+                ) }}
+                more for FREE shipping.
+
+            </p>
+
+            {% else %}
+
+            <p class="shipping-note success">
+
+                ✓ You've unlocked FREE shipping.
+
+            </p>
+
+            {% endif %}
+
+
+            <div class="summary-total">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong>
+
+                    ${{ "%.2f"|format(
+                        total
+                    ) }}
+
+                </strong>
+
+            </div>
+
+
+            <a
+                href="#"
+                class="checkout-button"
+            >
+                PROCEED TO CHECKOUT
+            </a>
+
+
+            <div class="secure-checkout">
+
+                🔒 Secure Checkout
+
+            </div>
+
+
+        </aside>
+
+
+    </div>
+
+
+    {% else %}
+
+
+    <!-- =================================================
+         EMPTY CART
+    ================================================= -->
+
+    <div class="empty-cart">
+
+
+        <div class="empty-cart-icon">
+            🛒
+        </div>
+
+
+        <h2>
+            Your cart is empty
+        </h2>
+
+
+        <p>
+            Looks like you haven't added
+            anything to your cart yet.
+        </p>
+
+
+        <a
+            href="/"
+            class="primary-button"
+        >
+            START SHOPPING
+        </a>
+
+
+    </div>
+
+
+    {% endif %}
+
+
+</section>
+
+
+{% endblock %}

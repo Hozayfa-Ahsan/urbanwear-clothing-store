@@ -1,0 +1,801 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ collection_name }} | UrbanWear
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     COLLECTION HERO
+===================================================== -->
+
+<section
+    class="collection-hero"
+    style="
+        background-image:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, .88),
+            rgba(0, 0, 0, .35)
+        ),
+        url('{{ collection_image }}');
+    "
+>
+
+    <div class="collection-hero-content">
+
+        <p class="eyebrow">
+            URBANWEAR COLLECTION
+        </p>
+
+        <h1>
+            {{ collection_name }}
+        </h1>
+
+        <p>
+            {{ collection_description }}
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     COLLECTION SECTION
+===================================================== -->
+
+<section class="collection-section">
+
+
+    <!-- HEADER -->
+
+    <div class="collection-header">
+
+        <div>
+
+            <p class="eyebrow">
+                EXPLORE THE COLLECTION
+            </p>
+
+            <h2>
+                {{ collection_name }}
+            </h2>
+
+        </div>
+
+
+        <div class="collection-count">
+
+            <span id="product-count">
+                {{ products|length }}
+            </span>
+
+            PRODUCTS
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         FILTER FORM
+    ================================================= -->
+
+    <form
+        method="GET"
+        id="filter-form"
+    >
+
+        <!-- TOOLBAR -->
+
+        <div class="collection-toolbar">
+
+            <button
+                type="button"
+                class="filter-toggle"
+                id="filter-toggle"
+            >
+
+                <span>
+                    FILTER
+                </span>
+
+                <span>
+                    ☰
+                </span>
+
+            </button>
+
+
+            <div class="toolbar-right">
+
+                <label for="sort-products">
+                    SORT BY
+                </label>
+
+
+                <select
+                    id="sort-products"
+                    name="sort"
+                    onchange="this.form.submit()"
+                >
+
+                    <option
+                        value="newest"
+                        {% if sort_by == "newest" %}
+                        selected
+                        {% endif %}
+                    >
+                        Newest
+                    </option>
+
+
+                    <option
+                        value="price-low"
+                        {% if sort_by == "price-low" %}
+                        selected
+                        {% endif %}
+                    >
+                        Price: Low to High
+                    </option>
+
+
+                    <option
+                        value="price-high"
+                        {% if sort_by == "price-high" %}
+                        selected
+                        {% endif %}
+                    >
+                        Price: High to Low
+                    </option>
+
+
+                    <option
+                        value="best-selling"
+                        {% if sort_by == "best-selling" %}
+                        selected
+                        {% endif %}
+                    >
+                        Best Selling
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             COLLECTION LAYOUT
+        ================================================= -->
+
+        <div class="collection-layout">
+
+
+            <!-- =================================================
+                 FILTER SIDEBAR
+            ================================================= -->
+
+            <aside
+                class="filter-sidebar"
+                id="filter-sidebar"
+            >
+
+                <div class="filter-heading">
+
+                    <h3>
+                        FILTER
+                    </h3>
+
+
+                    <a
+                        href="{{ request.path }}"
+                        class="clear-filters"
+                    >
+                        CLEAR ALL
+                    </a>
+
+                </div>
+
+
+                <!-- SIZE -->
+
+                <div class="filter-group">
+
+                    <button
+                        type="button"
+                        class="filter-title"
+                    >
+
+                        <span>
+                            SIZE
+                        </span>
+
+                        <span>
+                            +
+                        </span>
+
+                    </button>
+
+
+                    <div class="filter-options">
+
+                        {% for size in sizes %}
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="size"
+                                value="{{ size }}"
+                                {% if size in selected_sizes %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ size }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- COLOR -->
+
+                <div class="filter-group">
+
+                    <button
+                        type="button"
+                        class="filter-title"
+                    >
+
+                        <span>
+                            COLOR
+                        </span>
+
+                        <span>
+                            +
+                        </span>
+
+                    </button>
+
+
+                    <div class="filter-options">
+
+                        {% for color in colors %}
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="color"
+                                value="{{ color }}"
+                                {% if color in selected_colors %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ color }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRICE -->
+
+                <div class="filter-group">
+
+                    <button
+                        type="button"
+                        class="filter-title"
+                    >
+
+                        <span>
+                            PRICE
+                        </span>
+
+                        <span>
+                            +
+                        </span>
+
+                    </button>
+
+
+                    <div class="filter-options">
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="price"
+                                value="0-50"
+                                {% if selected_price == "0-50" %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                Under $50
+                            </span>
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="price"
+                                value="50-100"
+                                {% if selected_price == "50-100" %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                $50 — $100
+                            </span>
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="price"
+                                value="100-200"
+                                {% if selected_price == "100-200" %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                $100 — $200
+                            </span>
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="price"
+                                value="200+"
+                                {% if selected_price == "200+" %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                $200+
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STYLE -->
+
+                <div class="filter-group">
+
+                    <button
+                        type="button"
+                        class="filter-title"
+                    >
+
+                        <span>
+                            STYLE
+                        </span>
+
+                        <span>
+                            +
+                        </span>
+
+                    </button>
+
+
+                    <div class="filter-options">
+
+                        {% for style in styles %}
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="style"
+                                value="{{ style }}"
+                                {% if style in selected_styles %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ style }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- FABRIC -->
+
+                <div class="filter-group">
+
+                    <button
+                        type="button"
+                        class="filter-title"
+                    >
+
+                        <span>
+                            FABRIC
+                        </span>
+
+                        <span>
+                            +
+                        </span>
+
+                    </button>
+
+
+                    <div class="filter-options">
+
+                        {% for fabric in fabrics %}
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                name="fabric"
+                                value="{{ fabric }}"
+                                {% if fabric in selected_fabrics %}
+                                checked
+                                {% endif %}
+                            >
+
+                            <span>
+                                {{ fabric }}
+                            </span>
+
+                        </label>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="filter-apply-button"
+                >
+                    APPLY FILTERS
+                </button>
+
+
+            </aside>
+
+
+            <!-- =================================================
+                 PRODUCTS
+            ================================================= -->
+
+            <div class="collection-products">
+
+
+                {% if products %}
+
+
+                <div class="collection-product-grid">
+
+
+                    {% for product in products %}
+
+
+                    <!-- =================================================
+                         PRODUCT CARD
+                    ================================================= -->
+
+                    <article
+                        class="collection-product-card"
+                    >
+
+
+                        <!-- IMAGE -->
+
+                        <a
+                            href="{{ url_for(
+                                'products.product_detail',
+                                slug=product.slug
+                            ) }}"
+                            class="collection-product-image"
+                        >
+
+                            {% if product.is_new %}
+
+                            <span class="product-badge">
+                                NEW
+                            </span>
+
+                            {% elif product.is_sale %}
+
+                            <span class="product-badge">
+                                SALE
+                            </span>
+
+                            {% endif %}
+
+
+                            {% if product.image %}
+
+                            <img
+                                src="{{ url_for(
+                                    'static',
+                                    filename=product.image
+                                ) }}"
+                                alt="{{ product.name }}"
+                                loading="lazy"
+                            >
+
+                            {% else %}
+
+                            <div
+                                class="product-image-placeholder"
+                            >
+                                URBANWEAR
+                            </div>
+
+                            {% endif %}
+
+                        </a>
+
+
+                        <!-- DETAILS -->
+
+                        <div
+                            class="collection-product-details"
+                        >
+
+
+                            <div>
+
+                                <p
+                                    class="product-category"
+                                >
+                                    {{ product.category|capitalize }}
+                                </p>
+
+
+                                <h3>
+
+                                    <a
+                                        href="{{ url_for(
+                                            'products.product_detail',
+                                            slug=product.slug
+                                        ) }}"
+                                    >
+                                        {{ product.name }}
+                                    </a>
+
+                                </h3>
+
+                            </div>
+
+
+                            <div
+                                class="collection-product-price"
+                            >
+
+                                {% if product.sale_price is not none %}
+
+                                <span class="old-price">
+
+                                    ${{ "%.2f"|format(
+                                        product.price
+                                    ) }}
+
+                                </span>
+
+
+                                <strong>
+
+                                    ${{ "%.2f"|format(
+                                        product.sale_price
+                                    ) }}
+
+                                </strong>
+
+                                {% else %}
+
+                                <strong>
+
+                                    ${{ "%.2f"|format(
+                                        product.price
+                                    ) }}
+
+                                </strong>
+
+                                {% endif %}
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- =================================================
+                             ACTIONS
+                        ================================================= -->
+
+                        <div
+                            class="collection-card-actions"
+                        >
+
+
+                            <a
+                                href="{{ url_for(
+                                    'products.product_detail',
+                                    slug=product.slug
+                                ) }}"
+                                class="view-product-button"
+                            >
+                                VIEW PRODUCT
+                            </a>
+
+
+                            {% if product.stock > 0 %}
+
+
+                            <form
+                                action="{{ url_for(
+                                    'cart.add_to_cart'
+                                ) }}"
+                                method="POST"
+                                class="quick-add-form"
+                            >
+
+                                <input
+                                    type="hidden"
+                                    name="product_id"
+                                    value="{{ product.id }}"
+                                >
+
+
+                                <input
+                                    type="hidden"
+                                    name="quantity"
+                                    value="1"
+                                >
+
+
+                                {% set product_sizes =
+                                    product.available_sizes()
+                                %}
+
+
+                                {% if product_sizes %}
+
+                                <input
+                                    type="hidden"
+                                    name="size"
+                                    value="{{ product_sizes[0] }}"
+                                >
+
+                                {% endif %}
+
+
+                                <button
+                                    type="submit"
+                                    class="quick-add-button"
+                                >
+                                    ADD TO CART
+                                </button>
+
+                            </form>
+
+
+                            {% else %}
+
+
+                            <button
+                                type="button"
+                                class="quick-add-button disabled"
+                                disabled
+                            >
+                                SOLD OUT
+                            </button>
+
+
+                            {% endif %}
+
+
+                        </div>
+
+
+                    </article>
+
+
+                    {% endfor %}
+
+
+                </div>
+
+
+                {% else %}
+
+
+                <div class="empty-collection">
+
+                    <div
+                        class="empty-collection-icon"
+                    >
+                        ×
+                    </div>
+
+
+                    <h3>
+                        No products found
+                    </h3>
+
+
+                    <p>
+                        Try changing your filters
+                        to discover more products.
+                    </p>
+
+
+                    <a
+                        href="{{ request.path }}"
+                        class="primary-button"
+                    >
+                        VIEW ALL PRODUCTS
+                    </a>
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+    </form>
+
+
+</section>
+
+
+{% endblock %}

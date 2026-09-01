@@ -1,0 +1,845 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ product.name }} | UrbanWear
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- =====================================================
+     PRODUCT DETAIL
+===================================================== -->
+
+<section class="product-detail-section">
+
+
+    <!-- BREADCRUMB -->
+
+    <div class="product-breadcrumb">
+
+        <a href="/">
+            HOME
+        </a>
+
+        <span>/</span>
+
+        <a
+            href="/{{ product.category }}"
+        >
+            {{ product.category|capitalize }}
+        </a>
+
+        <span>/</span>
+
+        <span>
+            {{ product.name }}
+        </span>
+
+    </div>
+
+
+    <!-- PRODUCT -->
+
+    <div class="product-detail-layout">
+
+
+        <!-- =================================================
+             IMAGE
+        ================================================= -->
+
+        <div class="product-detail-gallery">
+
+
+            <div class="product-main-image">
+
+
+                {% if product.is_new %}
+
+                <span class="detail-badge">
+                    NEW
+                </span>
+
+                {% elif product.is_sale %}
+
+                <span class="detail-badge">
+                    SALE
+                </span>
+
+                {% endif %}
+
+
+                {% if product.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename=product.image
+                    ) }}"
+                    alt="{{ product.name }}"
+                >
+
+                {% else %}
+
+                <div class="detail-image-placeholder">
+                    URBANWEAR
+                </div>
+
+                {% endif %}
+
+
+                <button
+                    type="button"
+                    class="detail-image-arrow detail-prev"
+                >
+                    ‹
+                </button>
+
+
+                <button
+                    type="button"
+                    class="detail-image-arrow detail-next"
+                >
+                    ›
+                </button>
+
+
+            </div>
+
+
+            <!-- IMAGE THUMBNAILS -->
+
+            <div class="product-thumbnails">
+
+                <button
+                    type="button"
+                    class="product-thumbnail active"
+                >
+
+                    {% if product.image %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=product.image
+                        ) }}"
+                        alt="{{ product.name }}"
+                    >
+
+                    {% endif %}
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="product-thumbnail"
+                >
+
+                    {% if product.image %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=product.image
+                        ) }}"
+                        alt="{{ product.name }}"
+                    >
+
+                    {% endif %}
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="product-thumbnail"
+                >
+
+                    {% if product.image %}
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename=product.image
+                        ) }}"
+                        alt="{{ product.name }}"
+                    >
+
+                    {% endif %}
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PRODUCT INFORMATION
+        ================================================= -->
+
+        <div class="product-detail-info">
+
+
+            <p class="product-detail-category">
+
+                {{ product.category|capitalize }}
+
+            </p>
+
+
+            <h1>
+                {{ product.name }}
+            </h1>
+
+
+            <!-- RATING -->
+
+            <div class="product-rating">
+
+                <span>
+                    ★★★★★
+                </span>
+
+                <a href="#reviews">
+                    4.9 · 24 Reviews
+                </a>
+
+            </div>
+
+
+            <!-- PRICE -->
+
+            <div class="product-detail-price">
+
+
+                {% if product.sale_price is not none %}
+
+                <span class="detail-old-price">
+
+                    ${{ "%.2f"|format(
+                        product.price
+                    ) }}
+
+                </span>
+
+
+                <strong>
+
+                    ${{ "%.2f"|format(
+                        product.sale_price
+                    ) }}
+
+                </strong>
+
+
+                {% else %}
+
+                <strong>
+
+                    ${{ "%.2f"|format(
+                        product.price
+                    ) }}
+
+                </strong>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="product-description">
+
+                <p>
+                    {{ product.description }}
+                </p>
+
+            </div>
+
+
+            <!-- COLOR -->
+
+            {% if product.color %}
+
+            <div class="product-option">
+
+                <div class="option-label">
+
+                    <strong>
+                        COLOR
+                    </strong>
+
+                    <span>
+                        {{ product.color }}
+                    </span>
+
+                </div>
+
+
+                <div class="color-option">
+
+                    <span
+                        class="color-dot"
+                        title="{{ product.color }}"
+                    ></span>
+
+                    {{ product.color }}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- SIZE -->
+
+            {% if product.sizes %}
+
+            <div class="product-option">
+
+
+                <div class="option-label">
+
+                    <strong>
+                        SIZE
+                    </strong>
+
+                    <button
+                        type="button"
+                        class="size-guide-open"
+                    >
+                        SIZE GUIDE
+                    </button>
+
+                </div>
+
+
+                <div class="size-buttons">
+
+
+                    {% for size in product.sizes.split(",") %}
+
+                    <button
+                        type="button"
+                        class="size-button"
+                        data-size="{{ size.strip() }}"
+                    >
+
+                        {{ size.strip() }}
+
+                    </button>
+
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- STOCK -->
+
+            <div class="stock-status">
+
+                {% if product.stock > 10 %}
+
+                <span class="stock-dot"></span>
+
+                In Stock
+
+                {% elif product.stock > 0 %}
+
+                <span class="stock-dot low-stock"></span>
+
+                Only {{ product.stock }} left
+
+                {% else %}
+
+                <span class="stock-dot out-stock"></span>
+
+                Out of Stock
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="quantity-section">
+
+                <span>
+                    QUANTITY
+                </span>
+
+
+                <div class="quantity-selector">
+
+                    <button
+                        type="button"
+                        class="quantity-minus"
+                    >
+                        −
+                    </button>
+
+                    <input
+                        type="number"
+                        value="1"
+                        min="1"
+                        max="{{ product.stock }}"
+                        id="product-quantity"
+                    >
+
+                    <button
+                        type="button"
+                        class="quantity-plus"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="product-actions">
+
+                <form
+                    action="{{ url_for('cart.add_to_cart') }}"
+                    method="POST"
+                    class="add-cart-form"
+                >
+
+                    <input
+                        type="hidden"
+                        name="product_id"
+                        value="{{ product.id }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="size"
+                        id="selected-size"
+                        value=""
+                    >
+
+                    <input
+                        type="hidden"
+                        name="quantity"
+                        id="cart-quantity"
+                        value="1"
+                    >
+
+                    <button
+                        type="submit"
+                        class="add-cart-button"
+                        {% if product.stock <= 0 %}
+                        disabled
+                        {% endif %}
+                    >
+
+                        {% if product.stock > 0 %}
+
+                        ADD TO CART
+
+                        {% else %}
+
+                        OUT OF STOCK
+
+                        {% endif %}
+
+                    </button>
+
+                </form>
+
+
+                <button
+                    type="button"
+                    class="product-wishlist-button"
+                    aria-label="Add to wishlist"
+                >
+                    ♡
+                </button>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="buy-now-button"
+                {% if product.stock <= 0 %}
+                disabled
+                {% endif %}
+            >
+
+                BUY IT NOW
+
+            </button>
+
+
+            <!-- PRODUCT FEATURES -->
+
+            <div class="product-features">
+
+
+                <div class="feature-item">
+
+                    <span>
+                        ◇
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            FREE SHIPPING
+                        </strong>
+
+                        <p>
+                            On orders over $75
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature-item">
+
+                    <span>
+                        ↻
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            EASY RETURNS
+                        </strong>
+
+                        <p>
+                            30-day return policy
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature-item">
+
+                    <span>
+                        ✓
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            SECURE PAYMENT
+                        </strong>
+
+                        <p>
+                            Your payment is protected
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- FABRIC / DETAILS -->
+
+            <div class="product-extra-details">
+
+
+                {% if product.fabric %}
+
+                <div>
+
+                    <span>
+                        FABRIC
+                    </span>
+
+                    <strong>
+                        {{ product.fabric }}
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+                {% if product.style %}
+
+                <div>
+
+                    <span>
+                        STYLE
+                    </span>
+
+                    <strong>
+                        {{ product.style }}
+                    </strong>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RELATED PRODUCTS
+===================================================== -->
+
+{% if related_products %}
+
+<section class="related-products-section">
+
+
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            YOU MAY ALSO LIKE
+        </p>
+
+        <h2>
+            Complete Your Look
+        </h2>
+
+    </div>
+
+
+    <div class="related-product-grid">
+
+
+        {% for related in related_products %}
+
+
+        <a
+            href="{{ url_for(
+                'products.product_detail',
+                slug=related.slug
+            ) }}"
+            class="related-product-card"
+        >
+
+
+            <div class="related-product-image">
+
+
+                {% if related.image %}
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename=related.image
+                    ) }}"
+                    alt="{{ related.name }}"
+                    loading="lazy"
+                >
+
+                {% else %}
+
+                <div class="product-image-placeholder">
+                    URBANWEAR
+                </div>
+
+                {% endif %}
+
+
+                {% if related.is_new %}
+
+                <span class="product-badge">
+                    NEW
+                </span>
+
+                {% elif related.is_sale %}
+
+                <span class="product-badge">
+                    SALE
+                </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="related-product-info">
+
+                <h3>
+                    {{ related.name }}
+                </h3>
+
+
+                <strong>
+
+                    {% if related.sale_price is not none %}
+
+                    ${{ "%.2f"|format(
+                        related.sale_price
+                    ) }}
+
+                    {% else %}
+
+                    ${{ "%.2f"|format(
+                        related.price
+                    ) }}
+
+                    {% endif %}
+
+                </strong>
+
+            </div>
+
+
+        </a>
+
+
+        {% endfor %}
+
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<!-- =====================================================
+     SIZE GUIDE MODAL
+===================================================== -->
+
+<div
+    class="size-guide-modal"
+    id="size-guide-modal"
+>
+
+
+    <div class="size-guide-overlay"></div>
+
+
+    <div class="size-guide-content">
+
+
+        <button
+            type="button"
+            class="size-guide-close"
+        >
+            ×
+        </button>
+
+
+        <p class="eyebrow">
+            URBANWEAR
+        </p>
+
+
+        <h2>
+            Size Guide
+        </h2>
+
+
+        <p>
+            Use the chart below to find your
+            perfect fit.
+        </p>
+
+
+        <div class="size-table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            SIZE
+                        </th>
+
+                        <th>
+                            CHEST
+                        </th>
+
+                        <th>
+                            WAIST
+                        </th>
+
+                        <th>
+                            HIP
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>S</td>
+                        <td>36"</td>
+                        <td>30"</td>
+                        <td>36"</td>
+                    </tr>
+
+                    <tr>
+                        <td>M</td>
+                        <td>40"</td>
+                        <td>34"</td>
+                        <td>40"</td>
+                    </tr>
+
+                    <tr>
+                        <td>L</td>
+                        <td>44"</td>
+                        <td>38"</td>
+                        <td>44"</td>
+                    </tr>
+
+                    <tr>
+                        <td>XL</td>
+                        <td>48"</td>
+                        <td>42"</td>
+                        <td>48"</td>
+                    </tr>
+
+                    <tr>
+                        <td>XXL</td>
+                        <td>52"</td>
+                        <td>46"</td>
+                        <td>52"</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

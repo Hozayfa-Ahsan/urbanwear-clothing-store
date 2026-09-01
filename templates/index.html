@@ -1,0 +1,518 @@
+{% extends "base.html" %}
+
+{% block title %}
+UrbanWear | Fashion Without Limits
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            NEW COLLECTION · 2026
+        </p>
+
+        <h1>
+            WEAR<br>
+            YOUR<br>
+            <em>STORY.</em>
+        </h1>
+
+        <p class="hero-description">
+            Contemporary fashion for every generation,
+            every identity and every style.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/men" class="primary-button">
+                SHOP MEN
+            </a>
+
+            <a href="/women" class="secondary-button">
+                SHOP WOMEN
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="hero-scroll">
+        <span></span>
+        SCROLL TO EXPLORE
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORY INTRO ================= -->
+
+<section class="intro-section">
+
+    <div class="intro-number">
+        01
+    </div>
+
+    <div class="intro-content">
+
+        <p class="eyebrow">
+            DISCOVER URBANWEAR
+        </p>
+
+        <h2>
+            Fashion that
+            <em>belongs</em>
+            to everyone.
+        </h2>
+
+        <p>
+            From timeless essentials to bold contemporary
+            pieces, discover clothing designed to move
+            with your life.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="category-section">
+
+    <div class="section-top">
+
+        <div>
+
+            <p class="eyebrow">
+                EXPLORE
+            </p>
+
+            <h2>
+                Shop Your Style
+            </h2>
+
+        </div>
+
+        <span class="section-number">
+            02 / 05
+        </span>
+
+    </div>
+
+
+    <div class="category-grid">
+
+
+        <!-- MEN -->
+
+        <a href="/men" class="category-card men">
+
+            <div class="category-image"></div>
+
+            <div class="category-overlay"></div>
+
+            <div class="category-content">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    Men
+                </h3>
+
+                <p>
+                    Discover collection →
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- WOMEN -->
+
+        <a href="/women" class="category-card women">
+
+            <div class="category-image"></div>
+
+            <div class="category-overlay"></div>
+
+            <div class="category-content">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Women
+                </h3>
+
+                <p>
+                    Discover collection →
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- KIDS -->
+
+        <a href="/kids" class="category-card kids">
+
+            <div class="category-image"></div>
+
+            <div class="category-overlay"></div>
+
+            <div class="category-content">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Kids
+                </h3>
+
+                <p>
+                    Discover collection →
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <!-- UNISEX -->
+
+        <a href="/unisex" class="category-card unisex">
+
+            <div class="category-image"></div>
+
+            <div class="category-overlay"></div>
+
+            <div class="category-content">
+
+                <span>
+                    04
+                </span>
+
+                <h3>
+                    Unisex
+                </h3>
+
+                <p>
+                    Discover collection →
+                </p>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURED PRODUCTS ================= -->
+
+<section class="featured-section">
+
+    <div class="section-top">
+
+        <div>
+
+            <p class="eyebrow">
+                CURATED FOR YOU
+            </p>
+
+            <h2>
+                Trending Now
+            </h2>
+
+        </div>
+
+        <a href="/men" class="view-all">
+            VIEW ALL →
+        </a>
+
+    </div>
+
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+        <article class="product-card">
+
+            <a href="#">
+
+                <div class="product-image">
+
+                    {% if product.is_new %}
+
+                    <span class="product-badge">
+                        NEW
+                    </span>
+
+                    {% elif product.is_sale %}
+
+                    <span class="product-badge sale-badge">
+                        SALE
+                    </span>
+
+                    {% endif %}
+
+
+                    <img
+                        src="{{ url_for('static', filename=product.image) }}"
+                        alt="{{ product.name }}"
+                    >
+
+
+                    <div class="quick-view">
+                        QUICK VIEW
+                    </div>
+
+                </div>
+
+            </a>
+
+
+            <div class="product-details">
+
+                <div>
+
+                    <p class="product-category">
+                        {{ product.category|capitalize }}
+                    </p>
+
+                    <h3>
+                        {{ product.name }}
+                    </h3>
+
+                </div>
+
+
+                <div class="product-price">
+
+                    {% if product.sale_price %}
+
+                    <span class="old-price">
+                        ${{ "%.2f"|format(product.price) }}
+                    </span>
+
+                    <strong>
+                        ${{ "%.2f"|format(product.sale_price) }}
+                    </strong>
+
+                    {% else %}
+
+                    <strong>
+                        ${{ "%.2f"|format(product.price) }}
+                    </strong>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<!-- ================= CAMPAIGN ================= -->
+
+<section class="campaign-section">
+
+    <div class="campaign-content">
+
+        <p class="eyebrow">
+            THE ESSENTIAL EDIT
+        </p>
+
+        <h2>
+            Less noise.<br>
+            <em>More style.</em>
+        </h2>
+
+        <p>
+            Elevated essentials made for everyday life.
+        </p>
+
+        <a href="/unisex" class="primary-button">
+            EXPLORE THE EDIT
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SALE ================= -->
+
+<section class="sale-section">
+
+    <div class="sale-content">
+
+        <p class="eyebrow">
+            LIMITED TIME
+        </p>
+
+        <h2>
+            UP TO <span>40%</span> OFF
+        </h2>
+
+        <p>
+            Your next favorite piece might already be on sale.
+        </p>
+
+        <a href="/sale" class="primary-button">
+            SHOP SALE
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TESTIMONIALS ================= -->
+
+<section class="testimonial-section">
+
+    <div class="section-top">
+
+        <div>
+
+            <p class="eyebrow">
+                CUSTOMER STORIES
+            </p>
+
+            <h2>
+                Loved by our community.
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="testimonial-grid">
+
+
+        <article class="testimonial">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <blockquote>
+                “The quality, fit and packaging
+                were all incredible.”
+            </blockquote>
+
+            <p>
+                — Sarah M.
+            </p>
+
+        </article>
+
+
+        <article class="testimonial">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <blockquote>
+                “Finally a place where I can
+                shop for the entire family.”
+            </blockquote>
+
+            <p>
+                — Daniel R.
+            </p>
+
+        </article>
+
+
+        <article class="testimonial">
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <blockquote>
+                “Beautiful clothes without
+                feeling over-designed.”
+            </blockquote>
+
+            <p>
+                — Emma K.
+            </p>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= NEWSLETTER ================= -->
+
+<section class="newsletter-section">
+
+    <div class="newsletter-inner">
+
+        <div>
+
+            <p class="eyebrow">
+                JOIN THE COMMUNITY
+            </p>
+
+            <h2>
+                10% off your<br>
+                first order.
+            </h2>
+
+            <p>
+                New arrivals, exclusive drops and
+                special offers. Straight to your inbox.
+            </p>
+
+        </div>
+
+
+        <form class="newsletter-form">
+
+            <input
+                type="email"
+                placeholder="Your email address"
+                required
+            >
+
+            <button type="submit">
+                JOIN →
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
