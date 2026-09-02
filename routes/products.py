@@ -88,35 +88,19 @@ def get_filter_values(products):
     for product in products:
 
         if product.sizes:
-
             for size in product.sizes.split(","):
-
                 size = size.strip()
-
                 if size:
                     sizes.add(size)
 
-
         if product.color:
-
-            colors.add(
-                product.color.strip()
-            )
-
+            colors.add(product.color.strip())
 
         if product.style:
-
-            styles.add(
-                product.style.strip()
-            )
-
+            styles.add(product.style.strip())
 
         if product.fabric:
-
-            fabrics.add(
-                product.fabric.strip()
-            )
-
+            fabrics.add(product.fabric.strip())
 
     return (
         sorted(sizes),
@@ -136,13 +120,11 @@ def product_matches_filters(
 ):
 
     # SIZE
-
     if selected_sizes:
 
         product_sizes = []
 
         if product.sizes:
-
             product_sizes = [
                 size.strip().lower()
                 for size in product.sizes.split(",")
@@ -152,88 +134,68 @@ def product_matches_filters(
             size.lower() in product_sizes
             for size in selected_sizes
         ):
-
             return False
 
-
     # COLOR
-
     if selected_colors:
 
         if not product.color:
-
             return False
 
         if product.color.lower() not in [
             color.lower()
             for color in selected_colors
         ]:
-
             return False
 
-
     # STYLE
-
     if selected_styles:
 
         if not product.style:
-
             return False
 
         if product.style.lower() not in [
             style.lower()
             for style in selected_styles
         ]:
-
             return False
 
-
     # FABRIC
-
     if selected_fabrics:
 
         if not product.fabric:
-
             return False
 
         if product.fabric.lower() not in [
             fabric.lower()
             for fabric in selected_fabrics
         ]:
-
             return False
 
-
     # PRICE
-
     if selected_price:
 
         price = product.current_price()
-
 
         if selected_price == "0-50":
 
             if price >= 50:
                 return False
 
-
         elif selected_price == "50-100":
 
             if price < 50 or price > 100:
                 return False
-
 
         elif selected_price == "100-200":
 
             if price < 100 or price > 200:
                 return False
 
-
         elif selected_price == "200+":
 
             if price < 200:
                 return False
-
 
     return True
 
@@ -243,45 +205,33 @@ def apply_sorting(products, sort_by):
     if sort_by == "price-low":
 
         products.sort(
-            key=lambda product:
-            product.current_price()
+            key=lambda product: product.current_price()
         )
-
 
     elif sort_by == "price-high":
 
         products.sort(
-            key=lambda product:
-            product.current_price(),
+            key=lambda product: product.current_price(),
             reverse=True
         )
-
 
     elif sort_by == "best-selling":
 
-        # Until sales/order tracking is implemented,
-        # stock is used as a temporary deterministic
-        # fallback.
-
         products.sort(
-            key=lambda product:
-            product.stock,
+            key=lambda product: product.stock,
             reverse=True
         )
-
 
     else:
 
-        # Newest
-
         products.sort(
-            key=lambda product:
-            product.created_at
-            if product.created_at
-            else 0,
+            key=lambda product: (
+                product.created_at
+                if product.created_at
+                else 0
+            ),
             reverse=True
         )
-
 
     return products
 
@@ -290,9 +240,8 @@ def collection_page(collection_key):
 
     collection = COLLECTIONS[collection_key]
 
-
     # -----------------------------------------------------
-    # BASE QUERY
+    # GET PRODUCTS
     # -----------------------------------------------------
 
     if collection_key == "sale":
@@ -307,35 +256,25 @@ def collection_page(collection_key):
             category=collection_key
         ).all()
 
-
     # -----------------------------------------------------
     # FILTER OPTIONS
     # -----------------------------------------------------
 
-    sizes, colors, styles, fabrics = (
-        get_filter_values(products)
+    sizes, colors, styles, fabrics = get_filter_values(
+        products
     )
-
 
     # -----------------------------------------------------
     # REQUEST FILTERS
     # -----------------------------------------------------
 
-    selected_sizes = request.args.getlist(
-        "size"
-    )
+    selected_sizes = request.args.getlist("size")
 
-    selected_colors = request.args.getlist(
-        "color"
-    )
+    selected_colors = request.args.getlist("color")
 
-    selected_styles = request.args.getlist(
-        "style"
-    )
+    selected_styles = request.args.getlist("style")
 
-    selected_fabrics = request.args.getlist(
-        "fabric"
-    )
+    selected_fabrics = request.args.getlist("fabric")
 
     selected_price = request.args.get(
         "price",
@@ -347,17 +286,13 @@ def collection_page(collection_key):
         "newest"
     )
 
-
     # -----------------------------------------------------
     # APPLY FILTERS
     # -----------------------------------------------------
 
     products = [
-
         product
-
         for product in products
-
         if product_matches_filters(
             product,
             selected_sizes,
@@ -366,9 +301,7 @@ def collection_page(collection_key):
             selected_fabrics,
             selected_price
         )
-
     ]
-
 
     # -----------------------------------------------------
     # SORT
@@ -379,128 +312,82 @@ def collection_page(collection_key):
         sort_by
     )
 
+    # -----------------------------------------------------
+    # RENDER
+    # -----------------------------------------------------
 
     return render_template(
-
         "collection.html",
 
-        collection_name=
-            collection["name"],
+        collection_name=collection["name"],
 
-        collection_description=
-            collection["description"],
+        collection_description=collection["description"],
 
-        collection_image=
-            collection["image"],
+        collection_image=collection["image"],
 
-        products=
-            products,
+        collection_slug=collection_key,
 
-        sizes=
-            sizes,
+        products=products,
 
-        colors=
-            colors,
+        sizes=sizes,
 
-        styles=
-            styles,
+        colors=colors,
 
-        fabrics=
-            fabrics,
+        styles=styles,
 
-        selected_sizes=
-            selected_sizes,
+        fabrics=fabrics,
 
-        selected_colors=
-            selected_colors,
+        selected_sizes=selected_sizes,
 
-        selected_styles=
-            selected_styles,
+        selected_colors=selected_colors,
 
-        selected_fabrics=
-            selected_fabrics,
+        selected_styles=selected_styles,
 
-        selected_price=
-            selected_price,
+        selected_fabrics=selected_fabrics,
 
-        sort_by=
-            sort_by
+        selected_price=selected_price,
+
+        sort_by=sort_by
     )
 
+
+# =========================================================
+# COLLECTION ROUTES
+# =========================================================
 
 @products_bp.route("/men")
 def men():
 
-    products = Product.query.filter_by(
-        category="men"
-    ).all()
-
-    return render_template(
-        "collection.html",
-        products=products,
-        collection_name="Men's Collection",
-        collection_slug="men"
-    )
+    return collection_page("men")
 
 
 @products_bp.route("/women")
 def women():
 
-    products = Product.query.filter_by(
-        category="women"
-    ).all()
-
-    return render_template(
-        "collection.html",
-        products=products,
-        collection_name="Women's Collection",
-        collection_slug="women"
-    )
+    return collection_page("women")
 
 
 @products_bp.route("/kids")
 def kids():
 
-    products = Product.query.filter_by(
-        category="kids"
-    ).all()
-
-    return render_template(
-        "collection.html",
-        products=products,
-        collection_name="Kids' Collection",
-        collection_slug="kids"
-    )
+    return collection_page("kids")
 
 
 @products_bp.route("/unisex")
 def unisex():
 
-    products = Product.query.filter_by(
-        category="unisex"
-    ).all()
-
-    return render_template(
-        "collection.html",
-        products=products,
-        collection_name="Unisex Apparel",
-        collection_slug="unisex"
-    )
+    return collection_page("unisex")
 
 
 @products_bp.route("/sale")
 def sale():
 
-    products = Product.query.filter_by(
-        is_sale=True
-    ).all()
+    return collection_page("sale")
 
-    return render_template(
-        "collection.html",
-        products=products,
-        collection_name="Sale & Clearance",
-        collection_slug="sale"
-    )
+
+# =========================================================
+# PRODUCT DETAIL
+# =========================================================
 
 @products_bp.route("/product/<slug>")
 def product_detail(slug):
@@ -509,14 +396,10 @@ def product_detail(slug):
         slug=slug
     ).first_or_404()
 
-
-    # Find related products from the same category
-
     related_products = Product.query.filter(
         Product.category == product.category,
         Product.id != product.id
     ).limit(4).all()
-
 
     return render_template(
         "product_detail.html",
