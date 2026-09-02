@@ -28,6 +28,11 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
 
+    <!-- AI CHATBOT CSS -->
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/chatbot.css') }}">
+
 </head>
 
 
@@ -177,10 +182,10 @@
 
             <!-- CART -->
 
-            <button
+            <a
+                href="{{ url_for('cart.cart') }}"
                 class="icon-button cart-button"
-                aria-label="Shopping cart"
-                type="button">
+                aria-label="Shopping cart">
 
                 <svg
                     viewBox="0 0 24 24"
@@ -205,10 +210,10 @@
                 </svg>
 
                 <span class="cart-count">
-                    0
+                    {{ cart_count|default(0) }}
                 </span>
 
-            </button>
+            </a>
 
 
             <!-- MOBILE MENU -->
@@ -413,10 +418,179 @@
 
 
 <!-- =====================================================
+     URBANWEAR AI ASSISTANT
+===================================================== -->
+
+<button
+    id="chatbot-button"
+    type="button"
+    aria-label="Open UrbanWear AI Assistant">
+
+    ✦
+
+</button>
+
+
+<!-- =====================================================
+     CHATBOT WINDOW
+===================================================== -->
+
+<section
+    id="chatbot-window"
+    aria-label="UrbanWear AI Assistant"
+>
+
+
+    <!-- CHATBOT HEADER -->
+
+    <div class="chatbot-header">
+
+
+        <div class="chatbot-brand">
+
+            <div class="chatbot-logo">
+                U
+            </div>
+
+
+            <div>
+
+                <h2 class="chatbot-title">
+                    UrbanWear AI
+                </h2>
+
+                <div class="chatbot-status">
+                    Fashion Assistant
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            id="chatbot-close"
+            type="button"
+            aria-label="Close chatbot">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    <div
+        id="chatbot-messages"
+        aria-live="polite"
+    >
+
+        <div class="chat-message bot">
+
+            <div class="chat-message-bubble">
+
+                Hi! 👋 I'm the UrbanWear AI Assistant.
+                <br><br>
+                I can help you with products, sizing, returns, shipping, and other UrbanWear information.
+                <br><br>
+                <strong>What would you like to know?</strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+            QUICK SUGGESTIONS
+        ================================================= -->
+
+        <div class="chatbot-suggestions">
+
+            <button
+                type="button"
+                class="chat-suggestion"
+                data-question="What is your return policy?"
+            >
+                ↩ Return policy
+            </button>
+
+            <button
+                type="button"
+                class="chat-suggestion"
+                data-question="What are your shipping options?"
+            >
+                🚚 Shipping information
+            </button>
+
+            <button
+                type="button"
+                class="chat-suggestion"
+                data-question="How can I choose the right size?"
+            >
+                📏 Size guide
+            </button>
+
+            <button
+                type="button"
+                class="chat-suggestion"
+                data-question="What products are currently on sale?"
+            >
+                🏷️ Current sale
+            </button>
+
+            <button
+                type="button"
+                class="chat-suggestion"
+                data-question="What new products do you have?"
+            >
+                ✨ New arrivals
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- INPUT -->
+
+    <div class="chatbot-input-area">
+
+        <form id="chatbot-form">
+
+            <input
+                type="text"
+                id="chatbot-input"
+                placeholder="Ask UrbanWear AI..."
+                autocomplete="off"
+                aria-label="Message">
+
+            <button
+                type="submit"
+                aria-label="Send message">
+
+                ➤
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+</section>
+
+
+<!-- =====================================================
      JAVASCRIPT
 ===================================================== -->
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+
 
 </body>
 
