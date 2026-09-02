@@ -5,10 +5,7 @@ from models import db
 from models.product import Product
 
 
-PRODUCT_IMAGE_DIR = Path(
-    "static/images/products"
-)
-
+PRODUCT_IMAGE_DIR = Path("static/images/products")
 
 PRODUCT_IMAGE_DIR.mkdir(
     parents=True,
@@ -17,11 +14,6 @@ PRODUCT_IMAGE_DIR.mkdir(
 
 
 products = [
-
-    # =====================================================
-    # MEN
-    # =====================================================
-
     {
         "name": "Essential Black Tee",
         "slug": "essential-black-tee",
@@ -102,11 +94,6 @@ products = [
             "?auto=format&fit=crop&w=1000&q=85"
         ),
     },
-
-
-    # =====================================================
-    # WOMEN
-    # =====================================================
 
     {
         "name": "Midnight Satin Dress",
@@ -189,11 +176,6 @@ products = [
         ),
     },
 
-
-    # =====================================================
-    # KIDS
-    # =====================================================
-
     {
         "name": "Mini Explorer Set",
         "slug": "mini-explorer-set",
@@ -247,11 +229,6 @@ products = [
             "?auto=format&fit=crop&w=1000&q=85"
         ),
     },
-
-
-    # =====================================================
-    # UNISEX
-    # =====================================================
 
     {
         "name": "Essential Oversized Hoodie",
@@ -307,11 +284,6 @@ products = [
         ),
     },
 
-
-    # =====================================================
-    # SALE
-    # =====================================================
-
     {
         "name": "Weekend Cargo Pants",
         "slug": "weekend-cargo-pants",
@@ -365,44 +337,47 @@ products = [
             "?auto=format&fit=crop&w=1000&q=85"
         ),
     },
-
 ]
 
 
 def download_image(url, destination):
 
     if destination.exists():
+        print(f"Image already exists: {destination.name}")
+        return True
 
-        print(
-            f"Image already exists: "
-            f"{destination.name}"
+    try:
+        print(f"Downloading: {destination.name}")
+
+        request = Request(
+            url,
+            headers={
+                "User-Agent": "UrbanWear/1.0"
+            }
         )
 
-        return
+        with urlopen(
+            request,
+            timeout=30
+        ) as response:
+            data = response.read()
 
+        destination.parent.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
-    print(
-        f"Downloading: {destination.name}"
-    )
+        destination.write_bytes(data)
 
+        return True
 
-    request = Request(
-        url,
-        headers={
-            "User-Agent": "UrbanWear/1.0"
-        }
-    )
+    except Exception as e:
+        print(
+            f"Image download failed "
+            f"for {destination.name}: {e}"
+        )
 
-
-    with urlopen(
-        request,
-        timeout=30
-    ) as response:
-
-        data = response.read()
-
-
-    destination.write_bytes(data)
+        return False
 
 
 def seed_products(app):
@@ -413,8 +388,29 @@ def seed_products(app):
 
         added = 0
         skipped = 0
+        images_fixed = 0
 
         for data in products:
+
+            image_path = Path(
+                "static"
+            ) / data["image"]
+
+            # -------------------------------------------------
+            # Always make sure the product image exists
+            # -------------------------------------------------
+
+            if not image_path.exists():
+
+                if download_image(
+                    data["image_url"],
+                    image_path
+                ):
+                    images_fixed += 1
+
+            # -------------------------------------------------
+            # Check whether product already exists
+            # -------------------------------------------------
 
             existing = Product.query.filter_by(
                 slug=data["slug"]
@@ -428,17 +424,11 @@ def seed_products(app):
                 )
 
                 skipped += 1
-
                 continue
 
-            image_path = Path(
-                "static"
-            ) / data["image"]
-
-            download_image(
-                data["image_url"],
-                image_path
-            )
+            # -------------------------------------------------
+            # Create new product
+            # -------------------------------------------------
 
             product = Product(
                 name=data["name"],
@@ -468,8 +458,9 @@ def seed_products(app):
         print("=" * 50)
         print("URBANWEAR PRODUCT SEED COMPLETE")
         print("=" * 50)
-        print(f"Products added : {added}")
+        print(f"Products added  : {added}")
         print(f"Products skipped: {skipped}")
+        print(f"Images checked  : {images_fixed}")
         print("=" * 50)
 
 
