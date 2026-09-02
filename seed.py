@@ -1,7 +1,6 @@
 from pathlib import Path
 from urllib.request import urlopen, Request
 
-from app import app
 from models import db
 from models.product import Product
 
@@ -406,24 +405,20 @@ def download_image(url, destination):
     destination.write_bytes(data)
 
 
-def seed_products():
+def seed_products(app):
 
     with app.app_context():
 
         db.create_all()
 
-
         added = 0
-
         skipped = 0
-
 
         for data in products:
 
             existing = Product.query.filter_by(
                 slug=data["slug"]
             ).first()
-
 
             if existing:
 
@@ -436,60 +431,38 @@ def seed_products():
 
                 continue
 
-
             image_path = Path(
                 "static"
             ) / data["image"]
-
 
             download_image(
                 data["image_url"],
                 image_path
             )
 
-
             product = Product(
-
                 name=data["name"],
-
                 slug=data["slug"],
-
                 description=data["description"],
-
                 price=data["price"],
-
                 sale_price=data["sale_price"],
-
                 category=data["category"],
-
                 style=data["style"],
-
                 fabric=data["fabric"],
-
                 color=data["color"],
-
                 sizes=data["sizes"],
-
                 stock=data["stock"],
-
                 image=data["image"],
-
                 is_featured=data["is_featured"],
-
                 is_new=data["is_new"],
-
                 is_sale=data["is_sale"],
-
             )
-
 
             db.session.add(product)
 
             added += 1
 
-
         db.session.commit()
-
 
         print()
         print("=" * 50)
@@ -502,4 +475,6 @@ def seed_products():
 
 if __name__ == "__main__":
 
-    seed_products()
+    from app import app
+
+    seed_products(app)
