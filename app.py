@@ -1,11 +1,10 @@
-from flask import Flask, render_template
+﻿from flask import Flask, render_template
 
 from config import Config
 from models import db
 
 
 def create_app():
-
     app = Flask(__name__)
 
     app.config.from_object(Config)
@@ -13,7 +12,6 @@ def create_app():
     db.init_app(app)
 
     from models.product import Product
-
     from routes.products import products_bp
     from routes.cart import cart_bp
     from routes.chat import chat_bp
@@ -25,9 +23,13 @@ def create_app():
     with app.app_context():
         db.create_all()
 
+        print(
+            f"Database contains "
+            f"{Product.query.count()} products."
+        )
+
     @app.route("/")
     def home():
-
         products = Product.query.filter_by(
             is_featured=True
         ).limit(8).all()
@@ -44,4 +46,8 @@ app = create_app()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )
