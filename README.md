@@ -16,9 +16,32 @@
 ![Gemini](https://img.shields.io/badge/Google-Gemini-orange?logo=google)
 ![Pinecone](https://img.shields.io/badge/Pinecone-Vector%20DB-green)
 ![LangChain](https://img.shields.io/badge/LangChain-RAG-blue)
+![Docker](https://img.shields.io/badge/Docker-Containerized-blue?logo=docker)
+![Render](https://img.shields.io/badge/Deployed%20on-Render-purple)
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 </p>
+
+---
+
+## 🌐 Live Demo
+
+<p align="center">
+
+### 🛍️ Visit the Live UrbanWear Store
+
+<a href="https://urbanwear-clothing-store.onrender.com">
+  <strong>👉 Open UrbanWear Live Demo 👈</strong>
+</a>
+
+</p>
+
+The complete UrbanWear clothing store is deployed online using **Docker + Render**.
+
+You can browse products, filter collections, view product details, use the shopping cart, and interact with the AI-powered shopping assistant.
+
+**Live Website:**
+https://urbanwear-clothing-store.onrender.com
 
 ---
 
@@ -38,48 +61,49 @@ UrbanWear combines a modern e-commerce experience with an **AI-powered RAG shopp
 
 ### 🛍️ E-Commerce
 
-- Modern clothing storefront
-- Men's collection
-- Women's collection
-- Kids' collection
-- Unisex apparel
-- Sale & clearance section
-- Product detail pages
-- Product filtering
-- Product sorting
-- Shopping cart
-- Stock management
-- Sale pricing
-- Product categories
-- Responsive product grids
-- Featured products
-- New-arrival products
+* Modern clothing storefront
+* Men's collection
+* Women's collection
+* Kids' collection
+* Unisex apparel
+* Sale & clearance section
+* Product detail pages
+* Product filtering
+* Product sorting
+* Shopping cart
+* Stock management
+* Sale pricing
+* Product categories
+* Responsive product grids
+* Featured products
+* New-arrival products
 
 ### 🔎 Smart Product Discovery
 
 Customers can explore products using:
 
-- Size
-- Color
-- Price range
-- Style
-- Fabric
-- Newest products
-- Price: low to high
-- Price: high to low
-- Best-selling products
+* Size
+* Color
+* Price range
+* Style
+* Fabric
+* Newest products
+* Price: low to high
+* Price: high to low
+* Best-selling products
 
 ### 🤖 AI Shopping Assistant
 
-UrbanWear also includes an AI-powered shopping assistant built with:
+UrbanWear includes an AI-powered shopping assistant built with:
 
-- Python
-- LangChain
-- Google Gemini
-- Pinecone
-- Retrieval-Augmented Generation (RAG)
+* Python
+* Flask
+* LangChain
+* Google Gemini
+* Pinecone
+* Retrieval-Augmented Generation (RAG)
 
-The assistant can retrieve information from the store's private knowledge base and generate helpful answers for customers.
+The assistant retrieves relevant information from the store's private knowledge base and generates helpful responses for customers.
 
 Example:
 
@@ -99,7 +123,7 @@ Pinecone Vector Database
 Relevant Knowledge
    │
    ▼
-Gemini
+Google Gemini
    │
    ▼
 Helpful AI Response
@@ -107,34 +131,37 @@ Helpful AI Response
 
 ---
 
-# 🎯 Main Features
+## 🎯 Main Features
 
-| Feature | Status |
-|---|---|
-| 🏠 Modern Homepage | ✅ |
-| 👔 Men's Collection | ✅ |
-| 👗 Women's Collection | ✅ |
-| 🧒 Kids' Collection | ✅ |
-| 🧥 Unisex Collection | ✅ |
-| 🔥 Sale Collection | ✅ |
-| 🔎 Product Filtering | ✅ |
-| ↕️ Product Sorting | ✅ |
-| 📦 Product Inventory | ✅ |
-| 🛒 Shopping Cart | ✅ |
-| 💰 Sale Pricing | ✅ |
-| 📱 Responsive Design | ✅ |
-| 🤖 RAG AI Backend | ✅ |
-| 🧠 Gemini Embeddings | ✅ |
-| 🌲 Pinecone Vector Search | ✅ |
-| 📄 PDF Knowledge Base | ✅ |
-| 💬 AI Chat API | ✅ |
-| 🔐 Environment-based API Keys | ✅ |
+| Feature                       | Status |
+| ----------------------------- | :----: |
+| 🏠 Modern Homepage            |    ✅   |
+| 👔 Men's Collection           |    ✅   |
+| 👗 Women's Collection         |    ✅   |
+| 🧒 Kids' Collection           |    ✅   |
+| 🧥 Unisex Collection          |    ✅   |
+| 🔥 Sale Collection            |    ✅   |
+| 🔎 Product Filtering          |    ✅   |
+| ↕️ Product Sorting            |    ✅   |
+| 📦 Product Inventory          |    ✅   |
+| 🛒 Shopping Cart              |    ✅   |
+| 💰 Sale Pricing               |    ✅   |
+| 📱 Responsive Design          |    ✅   |
+| 🤖 AI Chatbot Frontend        |    ✅   |
+| 🧠 Gemini Embeddings          |    ✅   |
+| 🌲 Pinecone Vector Search     |    ✅   |
+| 📄 PDF Knowledge Base         |    ✅   |
+| 💬 AI Chat API                |    ✅   |
+| 🔐 Environment-based API Keys |    ✅   |
+| 🐳 Docker Deployment          |    ✅   |
+| ☁️ Render Deployment          |    ✅   |
+| 🌐 Live Demo                  |    ✅   |
 
 ---
 
-# 🧠 AI & RAG Architecture
+## 🧠 AI & RAG Architecture
 
-UrbanWear uses Retrieval-Augmented Generation to allow the AI assistant to answer questions using information from the store's knowledge base.
+UrbanWear uses **Retrieval-Augmented Generation (RAG)** to allow the AI assistant to answer questions using information from the store's knowledge base.
 
 ### Architecture
 
@@ -145,88 +172,97 @@ UrbanWear uses Retrieval-Augmented Generation to allow the AI assistant to answe
                                │
                                ▼
                     ┌──────────────────────┐
-                    │   UrbanWear Website  │
+                    │  UrbanWear Website   │
                     └──────────┬───────────┘
                                │
                                ▼
                     ┌──────────────────────┐
-                    │     Flask API        │
+                    │      Flask API       │
                     └──────────┬───────────┘
                                │
                                ▼
                     ┌──────────────────────┐
-                    │   RAG Retriever      │
+                    │    RAG Retriever     │
                     └──────────┬───────────┘
                                │
                                ▼
                     ┌──────────────────────┐
-                    │ Pinecone Vector DB   │
+                    │  Pinecone Vector DB  │
                     └──────────┬───────────┘
                                │
-                     Relevant PDF chunks
+                         Relevant
+                       Knowledge Chunks
                                │
                                ▼
                     ┌──────────────────────┐
-                    │   Google Gemini      │
+                    │    Google Gemini     │
                     └──────────┬───────────┘
                                │
                                ▼
                     ┌──────────────────────┐
-                    │    AI Response      │
+                    │     AI Response      │
                     └──────────────────────┘
 ```
 
 ---
 
-# 🏗️ Technology Stack
+## 🏗️ Technology Stack
 
 ### Frontend
 
-- HTML5
-- CSS3
-- JavaScript
-- Responsive design
+* HTML5
+* CSS3
+* JavaScript
+* Responsive Design
 
 ### Backend
 
-- Python 3.12
-- Flask
-- Flask-SQLAlchemy
-- SQLite
+* Python 3.12
+* Flask
+* Flask-SQLAlchemy
+* SQLAlchemy
+* SQLite
 
 ### AI
 
-- LangChain
-- Google Gemini
-- Gemini Embeddings
-- Retrieval-Augmented Generation
+* LangChain
+* Google Gemini
+* Gemini Embeddings
+* Retrieval-Augmented Generation (RAG)
 
 ### Vector Database
 
-- Pinecone
+* Pinecone
 
 ### Data
 
-- PDF knowledge base
-- SQLAlchemy models
-- SQLite database
+* PDF knowledge base
+* SQLAlchemy models
+* SQLite database
+
+### Deployment
+
+* Docker
+* Gunicorn
+* Render
 
 ### Development
 
-- Git
-- GitHub
-- Python Virtual Environment
+* Git
+* GitHub
+* Python Virtual Environment
 
 ---
 
-# 📁 Project Structure
+## 📁 Project Structure
 
 ```text
 urbanwear-clothing-store/
 │
 ├── docs/
 │   └── screenshots/
-│       └── homepage.png
+│       ├── homepage.png
+│       └── chatbot.png
 │
 ├── models/
 │   ├── __init__.py
@@ -265,6 +301,8 @@ urbanwear-clothing-store/
 ├── app.py
 ├── config.py
 ├── requirements.txt
+├── Dockerfile
+├── .dockerignore
 ├── .env.example
 ├── .gitignore
 └── README.md
@@ -272,25 +310,20 @@ urbanwear-clothing-store/
 
 ---
 
-# 🚀 Getting Started
+## 🚀 Getting Started
 
-## 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Hozayfa-Ahsan/urbanwear-clothing-store.git
-```
-
-```bash
 cd urbanwear-clothing-store
 ```
 
----
+### 2. Create a Virtual Environment
 
-## 2. Create a virtual environment
+#### Windows
 
-### Windows
-
-```powershell
+```bash
 python -m venv .venv
 ```
 
@@ -300,17 +333,13 @@ Activate it:
 .venv\Scripts\Activate.ps1
 ```
 
----
+### 3. Install Dependencies
 
-## 3. Install dependencies
-
-```powershell
+```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 4. Configure environment variables
+### 4. Configure Environment Variables
 
 Create a `.env` file in the project root.
 
@@ -318,23 +347,20 @@ Example:
 
 ```env
 SECRET_KEY=your_secret_key
-
 GEMINI_API_KEY=your_gemini_api_key
-
 PINECONE_API_KEY=your_pinecone_api_key
-
 PINECONE_INDEX_NAME=urbanwear-rag
 ```
 
-> Never commit your `.env` file to GitHub.
+> ⚠️ **Never commit your `.env` file to GitHub.**
 
 ---
 
-# ▶️ Run the Website
+## ▶️ Run the Website Locally
 
 Start Flask:
 
-```powershell
+```bash
 python app.py
 ```
 
@@ -346,43 +372,92 @@ http://127.0.0.1:5000
 
 ---
 
-# 🤖 RAG Setup
+## 🐳 Docker
+
+UrbanWear is containerized using Docker.
+
+### Build the Docker Image
+
+```bash
+docker build -t urbanwear .
+```
+
+### Run the Container Locally
+
+```bash
+docker run --rm --name urbanwear-test --env-file .env -p 10000:10000 urbanwear
+```
+
+Then open:
+
+```text
+http://localhost:10000
+```
+
+The production container uses **Gunicorn** and supports the `PORT` environment variable provided by Render.
+
+---
+
+## ☁️ Production Deployment
+
+The application is deployed using:
+
+```text
+GitHub
+   │
+   ▼
+Docker
+   │
+   ▼
+Render
+   │
+   ▼
+Live UrbanWear Website
+```
+
+### Live Demo
+
+👉 https://urbanwear-clothing-store.onrender.com
+
+---
+
+## 🤖 RAG Setup
 
 The RAG system uses PDF documents as the knowledge source.
 
 Place your PDF files inside:
 
 ```text
-rag/data/
+data/
 ```
 
-Then create the Pinecone index:
+### Create the Pinecone Index
 
-```powershell
+```bash
 python rag/create_index.py
 ```
 
-Run PDF ingestion:
+### Run PDF Ingestion
 
-```powershell
+```bash
 python rag/ingest.py
 ```
 
-Test the retriever:
+### Test the Retriever
 
-```powershell
+```bash
 python rag/retriever.py
 ```
 
-Test the complete AI response:
+### Test the Complete AI Response
 
-```powershell
+```bash
 python -m rag.chat_model
 ```
 
 ---
 
-# 💬 AI Chat API
+## 💬 AI Chat API
 
 The chatbot backend exposes:
 
@@ -390,7 +465,7 @@ The chatbot backend exposes:
 POST /api/chat
 ```
 
-Example request:
+### Example Request
 
 ```json
 {
@@ -398,21 +473,21 @@ Example request:
 }
 ```
 
-Example response:
+### Example Response
 
 ```json
 {
   "success": true,
   "answer": "Your return policy information...",
   "sources": [
-    "knwoledge.pdf"
+    "knowledge.pdf"
   ]
 }
 ```
 
 ---
 
-# 🛒 Shopping Experience
+## 🛒 Shopping Experience
 
 The platform is designed around a simple customer journey:
 
@@ -436,89 +511,86 @@ Checkout
 
 ---
 
-# 📸 Screenshots
+## 📸 Screenshots
 
-### Homepage
+### 🏠 Homepage
 
 <p align="center">
   <img src="docs/screenshots/homepage.png" alt="UrbanWear Homepage" width="950">
 </p>
 
-### Collection
+### 🤖 AI Shopping Assistant
 
-Add your collection screenshot here:
+<p align="center">
+  <img src="docs/screenshots/chatbot.png" alt="UrbanWear AI Shopping Assistant" width="950">
+</p>
+
+The AI shopping assistant allows customers to ask questions and receive answers based on the store's knowledge base.
+
+### 👕 Collection
+
+Add your collection screenshot:
 
 ```text
 docs/screenshots/collection.png
 ```
 
-### Product Details
+### 🛍️ Product Details
 
-Add your product screenshot here:
+Add your product screenshot:
 
 ```text
 docs/screenshots/product.png
 ```
 
-### Shopping Cart
+### 🛒 Shopping Cart
 
-Add your cart screenshot here:
+Add your cart screenshot:
 
 ```text
 docs/screenshots/cart.png
 ```
 
-### AI Shopping Assistant
-
-Add your chatbot screenshot here:
-
-```text
-docs/screenshots/chatbot.png
-```
-
 ---
 
-# 🔐 Security
+## 🔐 Security
 
 Sensitive configuration is kept outside the repository.
 
 The project uses:
 
-- Environment variables
-- `.env` protection
-- `.gitignore`
-- Server-side API communication
-- No API keys exposed in frontend JavaScript
+* Environment variables
+* `.env` protection
+* `.gitignore`
+* Server-side API communication
+* No API keys exposed in frontend JavaScript
 
 ---
 
-# 📈 Future Development
+## 📈 Future Development
 
-Planned enhancements include:
+Possible future enhancements include:
 
-- [ ] Full AI chatbot frontend
-- [ ] User authentication
-- [ ] Customer accounts
-- [ ] Wishlist
-- [ ] Product reviews
-- [ ] Order management
-- [ ] Checkout system
-- [ ] Multiple payment gateways
-- [ ] Email notifications
-- [ ] Admin dashboard
-- [ ] Advanced inventory management
-- [ ] AI product recommendations
-- [ ] Conversation history
-- [ ] Production deployment
-- [ ] HTTPS configuration
-- [ ] Advanced SEO
-- [ ] Performance optimization
+* User authentication
+* Customer accounts
+* Wishlist
+* Product reviews
+* Order management
+* Full checkout system
+* Multiple payment gateways
+* Email notifications
+* Admin dashboard
+* Advanced inventory management
+* AI product recommendations
+* Conversation history
+* Advanced SEO
+* Performance optimization
 
 ---
 
-# 🌟 Vision
+## 🌟 Vision
 
-UrbanWear aims to combine **modern fashion e-commerce with practical AI assistance**, creating a shopping experience where customers can discover products, get instant answers, and make purchasing decisions through an intuitive digital storefront.
+UrbanWear aims to combine modern fashion e-commerce with practical AI assistance, creating a shopping experience where customers can discover products, get instant answers, and make purchasing decisions through an intuitive digital storefront.
 
 ---
 
@@ -526,14 +598,16 @@ UrbanWear aims to combine **modern fashion e-commerce with practical AI assistan
 
 **Hozayfa Ahsan**
 
-Built with Python, Flask, JavaScript, LangChain, Google Gemini and Pinecone.
+Built with:
+
+**Python • Flask • JavaScript • LangChain • Google Gemini • Pinecone • Docker • Render**
 
 ---
 
 <p align="center">
 
-### 🖤 UrbanWear
+🖤 **UrbanWear**
 
-**Style. Simplicity. Intelligence.**
+*Style. Simplicity. Intelligence.*
 
 </p>
